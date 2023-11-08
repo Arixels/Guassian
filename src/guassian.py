@@ -1,39 +1,47 @@
 # %%
 import numpy as np
 import matplotlib.pyplot as plt
+def gaussian_2d(kernel_size: int, sigma_x: float = 1, sigma_y: float = 1, mu_x: float = 0, mu_y: float = 0):
+    """
+    Generate a 2D Gaussian kernel.
 
+    Args:
+        kernel_size (int): The size of the kernel.
+        sigma_x (float): Standard deviation in the x-direction.
+        sigma_y (float): Standard deviation in the y-direction.
+        mu_x (float): Mean in the x-direction.
+        mu_y (float): Mean in the y-direction.
 
-def gaussian_2d(kernel_size:int, sigma_x=1, sigma_y=1, mu_x=0, mu_y=0):
-    # Initializing value of x, y as grid of kernel size
-    # in the range of kernel size
-
+    Returns:
+        np.ndarray: The 2D Gaussian kernel.
+    """
     x, y = np.meshgrid(np.linspace(-1, 1, kernel_size),
                        np.linspace(-1, 1, kernel_size))
     
-    # Corrected normal part of Gaussian
     normal = 1 / (2 * np.pi * sigma_x * sigma_y)
-
-    # Calculating Gaussian filter
-    gauss = normal * np.exp(-((x - mu_x)**2 / (2 * sigma_x ** 2) + 
-                              (y - mu_y)**2 / (2 * sigma_x ** 2) )) 
-
+    gauss = normal * np.exp(-((x - mu_x)**2 / (2 * sigma_x**2) + (y - mu_y)**2 / (2 * sigma_y**2)))
+    
     return gauss
 
+def multivariate_gaussian(pos:np.ndarray, mu:np.ndarray, Sigma:np.ndarray):
+    """
+    Calculate the multivariate Gaussian distribution.
 
+    Args:
+        pos (np.ndarray): The position at which to evaluate the distribution.
+        mu (np.ndarray): The mean vector.
+        Sigma (np.ndarray): The covariance matrix.
 
-def multivariate_gaussian(pos, mu, Sigma):
-    """Return the multivariate Gaussian distribution on array pos."""
-
+    Returns:
+        np.ndarray: The probability density values at the given position.
+    """
     n = mu.shape[0]
     Sigma_det = np.linalg.det(Sigma)
     Sigma_inv = np.linalg.inv(Sigma)
-    N = np.sqrt((2*np.pi)**n * Sigma_det)
-    # This einsum call calculates (x-mu)T.Sigma-1.(x-mu) in a vectorized
-    # way across all the input variables.
-    fac = np.einsum('...k,kl,...l->...', pos-mu, Sigma_inv, pos-mu)
+    N = np.sqrt((2 * np.pi)**n * Sigma_det)
+    fac = np.einsum('...k,kl,...l->...', pos - mu, Sigma_inv, pos - mu)
 
     return np.exp(-fac / 2) / N
-
 
 
 
