@@ -1,3 +1,5 @@
+Light weight skill/code demo: mini repository to demonstrate my skills in python and signal processing, linear algebra and image processing. 
+
 # Gaussian Filter Function
 
 The `gaussian_filter` function is a Python implementation of a 2D Gaussian filter, commonly used in image processing for tasks such as blurring or smoothing an image. This README provides an overview of the function, its parameters, and how to use it.

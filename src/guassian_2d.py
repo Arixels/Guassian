@@ -1,6 +1,7 @@
 # %%
 import numpy as np
 import matplotlib.pyplot as plt
+
 def gaussian_2d(kernel_size: int, sigma_x: float = 1, sigma_y: float = 1, mu_x: float = 0, mu_y: float = 0):
     """
     Generate a 2D Gaussian kernel.
@@ -29,8 +30,8 @@ def multivariate_gaussian(pos:np.ndarray, mu:np.ndarray, Sigma:np.ndarray):
 
     Args:
         pos (np.ndarray): The position at which to evaluate the distribution.
-        mu (np.ndarray): The mean vector.
-        Sigma (np.ndarray): The covariance matrix.
+        mu (np.ndarray): The mean/location vector[2].
+        Sigma (np.ndarray): The covariance matrix[[2][2]].
 
     Returns:
         np.ndarray: The probability density values at the given position.
@@ -46,16 +47,15 @@ def multivariate_gaussian(pos:np.ndarray, mu:np.ndarray, Sigma:np.ndarray):
 
 
 # %%
+# Example usage and visualization 
 
 if __name__ == '__main__':
     kernel_size = 3
     gaussian = gaussian_2d(kernel_size)
     # gaussian = gaussian_filter_unique_means_2d(kernel_size)
 
-
     print("Gaussian filter of {} X {}:".format(kernel_size, kernel_size))
     print(gaussian)
-
 
     plt.imshow(gaussian, cmap='viridis', extent=(-1, 1, -1, 1))
     plt.title("Gaussian Filter")
